@@ -1,0 +1,41 @@
+.restaurant-profile-field {
+  margin-bottom: 5px;
+}
+
+.meta-box-label {
+  margin-bottom: 5px;
+}
+
+.meta-box-input {
+  padding: 5px;
+}
+
+.meta-box-input-restaurant-profile-phone {
+  width: 200px;
+}
+
+.meta-box-input-restaurant-profile-cost {
+  width: 112px;
+}
+
+.meta-box-select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+select.meta-box-select option.unselected,
+select.meta-box-select:has(option:first-of-type:checked),
+select.business-hours-meal option.unselected,
+select.business-hours-meal:has(option:first-of-type:checked) {
+  color: #aab4bc;
+}
+
+select.meta-box-select option:nth-of-type(n+2),
+select.business-hours-meal option:nth-of-type(n+2) {
+  color: #2c3338;
+}
+
+.add-business-hours-row {
+  margin-top: 5px;
+}
