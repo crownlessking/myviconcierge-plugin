@@ -1,3 +1,7 @@
+.align-top {
+  vertical-align: top;
+}
+
 .restaurant-profile-field {
   margin-bottom: 5px;
 }
@@ -10,18 +14,35 @@
   padding: 5px;
 }
 
-.meta-box-input-restaurant-profile-phone {
-  width: 200px;
-}
-
-.meta-box-input-restaurant-profile-cost {
-  width: 112px;
-}
-
 .meta-box-select {
   width: 100%;
   padding: 5px;
   margin-bottom: 10px;
+}
+
+.restaurant-address {
+  height: 75px;
+}
+
+.restaurant-website,
+.restaurant-address {
+  width: 191px;
+}
+
+.restaurant-cuisine {
+  width: 195px;
+}
+
+.restaurant-phone {
+  width: 200px;
+}
+
+.restaurant-cost-low {
+  width: 112px;
+}
+
+.restaurant-cost-high {
+  width: 108px;
 }
 
 select.meta-box-select option.unselected,

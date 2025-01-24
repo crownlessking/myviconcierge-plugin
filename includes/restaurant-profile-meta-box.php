@@ -20,6 +20,7 @@ add_action('add_meta_boxes', 'mvic_plugin_add_restaurant_profile_meta_box');
  */
 function mvic_plugin_restaurant_profile_meta_box_html($post) {
   $phone = get_post_meta($post->ID, '_restaurant_phone_meta_key', true);
+  $address = get_post_meta($post->ID, '_restaurant_address_meta_key', true);
   $website = get_post_meta($post->ID, '_restaurant_website_meta_key', true);
   $cuisine = get_post_meta($post->ID, '_restaurant_cuisine_meta_key', true);
   $costLow = get_post_meta($post->ID, '_restaurant_cost_low_meta_key', true);
@@ -38,23 +39,27 @@ function mvic_plugin_restaurant_profile_meta_box_html($post) {
     </div>  
     <div class="restaurant-profile-field">
       <label for="restaurant_phone" class="meta-box-label">Phone:</label>
-      <input type="text" name="restaurant_phone" id="restaurant_phone" value="<?= esc_attr($phone); ?>" placeholder="Phone #" class="meta-box-input-restaurant-profile-phone" />
+      <input type="text" name="restaurant_phone" id="restaurant_phone" value="<?= esc_attr($phone); ?>" placeholder="Phone #" class="meta-box-input restaurant-phone" />
+    </div>
+    <div class="restaurant-profile-field">
+      <label for="restaurant_address" class="meta-box-label align-top">Address:</label>
+      <textarea name="restaurant_address" id="restaurant_address" placeholder="Restaurant address" class="meta-box-input restaurant-address"><?= esc_textarea($address); ?></textarea>
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_website" class="meta-box-label">Website:</label>
-      <input type="text" name="restaurant_website" id="restaurant_website" value="<?= esc_attr($website); ?>" placeholder="Restaurant website" class="meta-box-input" />
+      <input type="text" name="restaurant_website" id="restaurant_website" value="<?= esc_attr($website); ?>" placeholder="Restaurant website" class="meta-box-input restaurant-website" />
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_cuisine" class="meta-box-label">Cuisine:</label>
-      <input type="text" name="restaurant_cuisine" id="restaurant_cuisine" value="<?= esc_attr($cuisine); ?>" placeholder="Restaurant cuisine" class="meta-box-input" />
+      <input type="text" name="restaurant_cuisine" id="restaurant_cuisine" value="<?= esc_attr($cuisine); ?>" placeholder="Restaurant cuisine" class="meta-box-input restaurant-cuisine" />
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_cost_low" class="meta-box-label">Cost Low:</label>
-      <input type="number" name="restaurant_cost_low" id="restaurant_cost_low" value="<?= esc_attr($costLow); ?>" placeholder="Lowest cost" class="meta-box-input-restaurant-profile-cost" />
+      <input type="number" name="restaurant_cost_low" id="restaurant_cost_low" value="<?= esc_attr($costLow); ?>" placeholder="Lowest cost" class="meta-box-input restaurant-cost-low" />
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_cost_high" class="meta-box-label">Cost High:</label>
-      <input type="number" name="restaurant_cost_high" id="restaurant_cost_high" value="<?= esc_attr($costHigh); ?>" placeholder="Highest cost" class="meta-box-input-restaurant-profile-cost" />
+      <input type="number" name="restaurant_cost_high" id="restaurant_cost_high" value="<?= esc_attr($costHigh); ?>" placeholder="Highest cost" class="meta-box-input restaurant-cost-high" />
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_ambience">Ambience:</label>
@@ -133,6 +138,13 @@ function mvic_plugin_save_restaurant_profile_meta_box($post_id) {
       $post_id,
       '_restaurant_phone_meta_key',
       $_POST['restaurant_phone']
+    );
+  }
+  if (array_key_exists('restaurant_address', $_POST)) {
+    update_post_meta(
+      $post_id,
+      '_restaurant_address_meta_key',
+      $_POST['restaurant_address']
     );
   }
   if (array_key_exists('restaurant_website', $_POST)) {
