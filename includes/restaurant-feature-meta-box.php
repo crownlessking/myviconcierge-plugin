@@ -38,6 +38,12 @@ function mvic_plugin_restaurant_features_meta_box_html($post) {
   $hasRestrooms = get_post_meta($post->ID, '_restaurant_has_restrooms_meta_key', true);
   ?>
   <p class="meta-options">
+    <label for="restaurant_show_features">
+      <input type="checkbox" name="restaurant_show_features" id="restaurant_show_features" value="1" <?= checked(get_post_meta($post->ID, '_restaurant_show_features_meta_key', true), '1'); ?> />
+      <b>Show Features</b>
+    </label>
+  </p>
+  <p class="meta-options">
     <label for="restaurant_takes_reservations">
       <input type="checkbox" name="restaurant_takes_reservations" id="restaurant_takes_reservations" value="1" <?= checked($takesReservations, '1'); ?> />
       Takes reservations
@@ -130,6 +136,15 @@ function mvic_plugin_restaurant_features_meta_box_html($post) {
  * Action to save restaurant features data.
  */
 function mvic_plugin_save_restaurant_features_meta_box($post_id) {
+  if (array_key_exists('restaurant_show_features', $_POST)) {
+    update_post_meta(
+      $post_id,
+      '_restaurant_show_features_meta_key',
+      $_POST['restaurant_show_features']
+    );
+  } else {
+    delete_post_meta($post_id, '_restaurant_show_features_meta_key');
+  }
   $fields = [
     'restaurant_takes_reservations',
     'restaurant_delivers',

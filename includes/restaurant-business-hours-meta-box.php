@@ -22,6 +22,12 @@ function mvic_plugin_business_hours_meta_box_html($post) {
   $business_hours = get_post_meta($post->ID, '_restaurant_business_hours_meta_key', true);
   ?>
   <div id="business-hours-container">
+    <p class="meta-options">
+      <label for="restaurant_show_bh">
+        <input type="checkbox" name="restaurant_show_bh" id="restaurant_show_bh" value="1" <?= checked(get_post_meta($post->ID, '_restaurant_show_bh_meta_key', true), '1'); ?> />
+        <b>Show Business Hours</b>
+      </label>
+    </p>
     <?php if (!empty($business_hours)) : ?>
       <?php foreach ($business_hours as $index => $hours) : ?>
         <div class="business-hours-row">
@@ -94,6 +100,15 @@ function mvic_plugin_business_hours_meta_box_html($post) {
  * Action to save restaurant business hours data.
  */
 function mvic_plugin_save_business_hours_meta_box($post_id) {
+  if (array_key_exists('restaurant_show_bh', $_POST)) {
+    update_post_meta(
+      $post_id,
+      '_restaurant_show_bh_meta_key',
+      $_POST['restaurant_show_bh']
+    );
+  } else {
+    delete_post_meta($post_id, '_restaurant_show_bh_meta_key');
+  }
   if (array_key_exists('restaurant_business_hours', $_POST)) {
     update_post_meta(
       $post_id,

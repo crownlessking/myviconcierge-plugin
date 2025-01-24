@@ -8,6 +8,7 @@
 
 require_once plugin_dir_path(__FILE__) . 'includes/restaurant-profile-meta-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/restaurant-feature-meta-box.php';
+require_once plugin_dir_path(__FILE__) . 'includes/icon-url-meta-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/restaurant-business-hours-meta-box.php';
 
 function myviconcierge_plugin_enqueue_styles() {
