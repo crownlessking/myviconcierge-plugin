@@ -15,6 +15,7 @@ Beach features meta box contains the following boolean values:
 * Entrance fee
 
 */
+
 function mvic_plugin_add_beach_features_meta_box() {
   add_meta_box(
     'beach_features_meta_box',
@@ -59,18 +60,6 @@ function mvic_plugin_beach_features_meta_box($post) {
     <?php endforeach; ?>
   </p>
   <?php
-  // echo '<p class="meta-options">';
-  // echo '<label for="beach_show_features">';
-  // echo '<input'
-  // foreach ($features as $key => $label) {
-  //   $value = get_post_meta($post->ID, $key, true);
-  //   echo '<br>';
-  //   echo '<label for="' . $key . '">';
-  //   echo '<input type="checkbox" id="' . $key . '" name="' . $key . '" value="1"' . checked($value, 1, false) . ' />';
-  //   echo $label
-  //   echo '</label> ';
-  // }
-  // echo '</p>';
 }
 
 function mvic_plugin_save_beach_features_meta_box($post_id) {

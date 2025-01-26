@@ -2,6 +2,23 @@
   vertical-align: top;
 }
 
+.mr-\[10px\] {
+  margin-right: 10px;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.meta-box-map-field,
 .beach-profile-field,
 .restaurant-profile-field {
   margin-bottom: 5px;
