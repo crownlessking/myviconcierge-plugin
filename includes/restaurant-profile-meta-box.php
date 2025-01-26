@@ -3,7 +3,7 @@
 /**
  * Restaurant profile meta box definition.
  */
-function mvic_plugin_add_restaurant_profile_meta_box() {
+function mvic_plugin_restaurant_profile_add_meta_box() {
   add_meta_box(
     'restaurant_profile_meta_box', // Unique ID
     'Restaurant Profile',        // Box title
@@ -13,7 +13,7 @@ function mvic_plugin_add_restaurant_profile_meta_box() {
     'high'                       // Priority
   );
 }
-add_action('add_meta_boxes', 'mvic_plugin_add_restaurant_profile_meta_box');
+add_action('add_meta_boxes', 'mvic_plugin_restaurant_profile_add_meta_box');
 
 /**
  * Restaurant profile meta box HTML.
@@ -36,10 +36,11 @@ function mvic_plugin_restaurant_profile_meta_box_html($post) {
         <input type="checkbox" name="restaurant_show_profile" id="restaurant_show_profile" value="1" <?= checked(get_post_meta($post->ID, '_restaurant_show_profile_meta_key', true), '1'); ?> />
         <b>Show Profile</b>
       </label>
-    </div>  
+    </div>
+    <br>
     <div class="restaurant-profile-field">
       <label for="restaurant_phone" class="meta-box-label">Phone:</label>
-      <input type="text" name="restaurant_phone" id="restaurant_phone" value="<?= esc_attr($phone); ?>" placeholder="Phone #" class="meta-box-input restaurant-phone" />
+      <input type="text" name="restaurant_phone" id="restaurant_phone" value="<?= esc_attr($phone); ?>" placeholder="Restaurant phone #" class="meta-box-input restaurant-phone" />
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_address" class="meta-box-label align-top">Address:</label>
@@ -47,7 +48,7 @@ function mvic_plugin_restaurant_profile_meta_box_html($post) {
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_website" class="meta-box-label">Website:</label>
-      <input type="text" name="restaurant_website" id="restaurant_website" value="<?= esc_attr($website); ?>" placeholder="Restaurant website" class="meta-box-input restaurant-website" />
+      <input type="text" name="restaurant_website" id="restaurant_website" value="<?= esc_attr($website); ?>" placeholder="URL" class="meta-box-input restaurant-website" />
     </div>
     <div class="restaurant-profile-field">
       <label for="restaurant_cuisine" class="meta-box-label">Cuisine:</label>
