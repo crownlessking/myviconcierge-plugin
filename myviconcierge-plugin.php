@@ -12,6 +12,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/map-meta-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/restaurant-business-hours-meta-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/beach-profile-meta-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/beach-features-meta-box.php';
+require_once plugin_dir_path(__FILE__) . 'includes/accommodation-profile-meta-box.php';
 
 function myviconcierge_plugin_enqueue_styles() {
   wp_enqueue_style('myviconcierge-plugin-styles', plugin_dir_url(__FILE__) . 'myviconcierge-plugin.css');

@@ -47,4 +47,26 @@ jQuery(document).ready(function($) {
     });
   }
 
+  var accommodationInput = document.querySelector("#accommodation_phone");
+
+  if (accommodationInput) {
+    var accommodationIti = window.intlTelInput(accommodationInput, {
+      initialCountry: "auto",
+      geoIpLookup: function(callback) {
+        $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "us";
+          callback(countryCode);
+        });
+      },
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+      formatOnDisplay: true
+    });
+
+    // Format the number on blur
+    accommodationInput.addEventListener('blur', function() {
+      var countryCode = accommodationIti.getSelectedCountryData().dialCode;
+      var formattedNumber = accommodationIti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
+      accommodationInput.value = `+${countryCode} ${formattedNumber}`;
+    });
+  }
 });

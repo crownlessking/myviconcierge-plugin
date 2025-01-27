@@ -31,20 +31,27 @@ function mvic_map_meta_box_callback($post) {
   $icon_url = get_post_meta($post->ID, '_mvic_icon_url', true);
   $latitude  = get_post_meta($post->ID, '_mvic_latitude', true);
   $longitude = get_post_meta($post->ID, '_mvic_longitude', true);
-  
+
   // Display the form field
   ?>
   <div class="meta-box-map-field">
+    <label for="mvic_show_map">
+      <input type="checkbox" id="mvic_show_map" name="mvic_show_map" value="1" <?php checked(get_post_meta($post->ID, '_mvic_show_map', true), '1'); ?> />
+      <b>Show map</b>
+    </label>
+  </div>
+  <br>
+  <div class="meta-box-map-field">
     <label for="mvic_latitude">Latitude: &nbsp;&nbsp;</label>
-    <input type="text" id="mvic_latitude" name="mvic_latitude" value="<?php echo esc_attr($latitude); ?>" size="16" />
+    <input type="text" id="mvic_latitude" name="mvic_latitude" value="<?= esc_attr($latitude); ?>" size="16" />
   </div>
   <div class="meta-box-map-field">
     <label for="mvic_longitude">Longitude: </label>
-    <input type="text" id="mvic_longitude" name="mvic_longitude" value="<?php echo esc_attr($longitude); ?>" size="16" />
+    <input type="text" id="mvic_longitude" name="mvic_longitude" value="<?= esc_attr($longitude); ?>" size="16" />
   </div>
   <div class="meta-box-map-field flex items-center">
     <label for="mvic_icon_url" class="mr-[10px]">Map Icon URL:</label>
-    <input type="text" id="mvic_icon_url" name="mvic_icon_url" value="<?php echo esc_attr($icon_url); ?>" class="flex-1" />
+    <input type="text" id="mvic_icon_url" name="mvic_icon_url" value="<?= esc_attr($icon_url); ?>" class="flex-1" />
   </div>
   <?php
 }
@@ -67,6 +74,14 @@ function mvic_save_map_meta_box_data($post_id) {
   }
 
   // Check if the meta fields are set
+  if (!isset($_POST['mvic_icon_url'])
+    || !isset($_POST['mvic_latitude'])
+    || !isset($_POST['mvic_longitude']) 
+    || !isset($_POST['mvic_show_map'])) 
+  {
+    return;
+  }
+
   if (!isset($_POST['mvic_icon_url']) || !isset($_POST['mvic_latitude']) || !isset($_POST['mvic_longitude'])) {
     return;
   }
@@ -75,9 +90,11 @@ function mvic_save_map_meta_box_data($post_id) {
   $icon_url = sanitize_text_field($_POST['mvic_icon_url']);
   $latitude = sanitize_text_field($_POST['mvic_latitude']);
   $longitude = sanitize_text_field($_POST['mvic_longitude']);
-  
+  $show_map = sanitize_text_field($_POST['mvic_show_map']);
+
   update_post_meta($post_id, '_mvic_icon_url', $icon_url);
   update_post_meta($post_id, '_mvic_latitude', $latitude);
   update_post_meta($post_id, '_mvic_longitude', $longitude);
+  update_post_meta($post_id, '_mvic_show_map', $show_map);
 }
 ?>
