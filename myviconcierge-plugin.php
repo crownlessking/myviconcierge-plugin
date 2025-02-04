@@ -27,6 +27,57 @@ function myviconcierge_plugin_enqueue_scripts() {
 add_action('admin_enqueue_scripts', 'myviconcierge_plugin_enqueue_scripts');
 
 /**
+ * Creates restaurants, beaches, and accommodations pages.
+ */
+function mvic_plugin_create_custom_pages() {
+  // Retrieve the ID of the homepage
+  $pages = [
+    'restaurants' => [
+      'title' => 'Restaurants',
+      'template' => 'page-restaurants.php'
+    ],
+    'beaches' => [
+      'title' => 'Beaches',
+      'template' => 'page-beaches.php'
+    ],
+    'accommodations' => [
+      'title' => 'Hotels and Resorts',
+      'template' => 'page-accommodations.php'
+    ]
+  ];
+
+  foreach ($pages as $slug => $data) {
+    // Query to check if the page already exists by title
+    $query = new WP_Query(array(
+      'post_type' => 'page',
+      'title' => $data['title'],
+      'post_status' => 'publish',
+      'posts_per_page' => 1
+    ));
+
+    if (!$query->have_posts()) {
+      // Create the page if it doesn't exist
+      $post_id = wp_insert_post([
+        'post_title' => $data['title'],
+        'post_name' => $slug,
+        'post_status' => 'publish',
+        'post_type' => 'page',
+        'meta_input' => [
+          '_wp_page_template' => $data['template']
+        ],
+        'post_parent' => get_option('page_on_front')
+      ]);
+
+      // Check for errors
+      if (is_wp_error($post_id)) {
+        error_log('Error creating page: ' . $slug . ' - ' . $post_id->get_error_message());
+      }
+    }
+  }
+}
+add_action('init', 'mvic_plugin_create_custom_pages');
+
+/**
  * Creates "restaurant", "beach", and "accommodation" custom posts.
  */
 function mvic_plugin_create_custom_post_types() {
@@ -34,39 +85,41 @@ function mvic_plugin_create_custom_post_types() {
   register_post_type('restaurant', array(
     'labels' => array(
       'name' => __('Restaurants'),
-      'singular_name'      => __('Restaurant'),
-      'add_new_item'       => __('Add New Restaurant'),
-      'edit_item'          => __('Edit Restaurant'),
-      'new_item'           => __('New Restaurant'),
-      'view_item'          => __('View Restaurant'),
-      'search_items'       => __('Search Restaurants'),
-      'not_found'          => __('No restaurants found'),
+      'singular_name' => __('Restaurant'),
+      'add_new_item' => __('Add New Restaurant'),
+      'edit_item' => __('Edit Restaurant'),
+      'new_item' => __('New Restaurant'),
+      'view_item' => __('View Restaurant'),
+      'search_items' => __('Search Restaurants'),
+      'not_found' => __('No restaurants found'),
       'not_found_in_trash' => __('No restaurants found in Trash'),
     ),
     'public' => true,
     'has_archive' => true,
-    'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
-    'menu_icon'   => 'dashicons-food', // Icon for restaurant
-    'rewrite' => array('slug' => 'restaurants'),
+    'hierarchical' => true, // Enable parent page option
+    'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'page-attributes'),
+    'menu_icon' => 'dashicons-carrot', // Icon for restaurant
+    'rewrite' => array('slug' => 'restaurants')
   ));
 
   // Register Beach Post Type
   register_post_type('beach', array(
     'labels' => array(
       'name' => __('Beaches'),
-      'singular_name'      => __('Beach'),
-      'add_new_item'       => __('Add New Beach'),
-      'edit_item'          => __('Edit Beach'),
-      'new_item'           => __('New Beach'),
-      'view_item'          => __('View Beach'),
-      'search_items'       => __('Search Beaches'),
-      'not_found'          => __('No beaches found'),
+      'singular_name' => __('Beach'),
+      'add_new_item' => __('Add New Beach'),
+      'edit_item' => __('Edit Beach'),
+      'new_item' => __('New Beach'),
+      'view_item' => __('View Beach'),
+      'search_items' => __('Search Beaches'),
+      'not_found' => __('No beaches found'),
       'not_found_in_trash' => __('No beaches found in Trash'),
     ),
     'public' => true,
     'has_archive' => true,
-    'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
-    'menu_icon'   => 'dashicons-palmtree', // Icon for beach
+    'hierarchical' => true, // Enable parent page option
+    'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'page-attributes'),
+    'menu_icon' => 'dashicons-palmtree', // Icon for beach
     'rewrite' => array('slug' => 'beaches')
   ));
 
@@ -75,18 +128,19 @@ function mvic_plugin_create_custom_post_types() {
     'labels' => array(
       'name' => __('Accommodations'),
       'singular_name' => __('Accommodation'),
-      'add_new_item'       => __('Add New Accommodation'),
-      'edit_item'          => __('Edit Accommodation'),
-      'new_item'           => __('New Accommodation'),
-      'view_item'          => __('View Accommodation'),
-      'search_items'       => __('Search Accommodations'),
-      'not_found'          => __('No accommodations found'),
+      'add_new_item' => __('Add New Accommodation'),
+      'edit_item' => __('Edit Accommodation'),
+      'new_item' => __('New Accommodation'),
+      'view_item' => __('View Accommodation'),
+      'search_items' => __('Search Accommodations'),
+      'not_found' => __('No accommodations found'),
       'not_found_in_trash' => __('No accommodations found in Trash'),
     ),
     'public' => true,
     'has_archive' => true,
-    'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
-    'menu_icon'   => 'dashicons-building', // Icon for accommodation
+    'hierarchical' => true, // Enable parent page option
+    'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'page-attributes'),
+    'menu_icon' => 'dashicons-building', // Icon for accommodation
     'rewrite' => array('slug' => 'accommodations'),
   ));
 }

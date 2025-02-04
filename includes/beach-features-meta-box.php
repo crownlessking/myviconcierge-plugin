@@ -31,7 +31,6 @@ add_action('add_meta_boxes', 'mvic_plugin_add_beach_features_meta_box');
 
 function mvic_plugin_beach_features_meta_box($post) {
   $features = array(
-    'beach_show_features' => 'Show features',
     'swim_snorkel' => 'Swim/snorkel',
     'rent_chair' => 'Rent a chair',
     'rent_umbrella' => 'Rent an umbrella',
@@ -45,13 +44,13 @@ function mvic_plugin_beach_features_meta_box($post) {
 
   ?>
   <p class="meta-options">
-    <label for="beach_show_features">
-      <input type="checkbox" name="beach_show_features" id="beach_show_features" value="1" <?= checked(get_post_meta($post->ID, '_beach_show_features_meta_key', true), '1'); ?> />
-      <b><?= $features['beach_show_features']; ?></b>
+    <label for="show_features">
+      <input type="checkbox" name="show_features" id="show_features" value="1" <?= checked(get_post_meta($post->ID, '_beach_show_features_meta_key', true), '1'); ?> />
+      <b>Show features</b>
     </label>
     <br>
     <?php foreach ($features as $key => $label): ?>
-      <?php $value = get_post_meta($post->ID, $key, true); ?>
+      <?php $value = get_post_meta($post->ID, "_beach_{$key}_meta_key", true); ?>
       <br>
       <label for="<?= $key; ?>">
         <input type="checkbox" id="<?= $key; ?>" name="<?= $key; ?>" value="1" <?= checked($value, 1, false); ?> />
@@ -72,7 +71,7 @@ function mvic_plugin_save_beach_features_meta_box($post_id) {
   }
 
   $features = array(
-    'beach_show_features',
+    'show_features',
     'swim_snorkel',
     'rent_chair',
     'rent_umbrella',
@@ -86,9 +85,9 @@ function mvic_plugin_save_beach_features_meta_box($post_id) {
 
   foreach ($features as $feature) {
     if (isset($_POST[$feature])) {
-      update_post_meta($post_id, $feature, 1);
+      update_post_meta($post_id, "_beach_{$feature}_meta_key", $_POST[$feature]);
     } else {
-      update_post_meta($post_id, $feature, 0);
+      update_post_meta($post_id, "_beach_{$feature}_meta_key", 0);
     }
   }
 }

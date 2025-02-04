@@ -76,13 +76,8 @@ function mvic_save_map_meta_box_data($post_id) {
   // Check if the meta fields are set
   if (!isset($_POST['mvic_icon_url'])
     || !isset($_POST['mvic_latitude'])
-    || !isset($_POST['mvic_longitude']) 
-    || !isset($_POST['mvic_show_map'])) 
+    || !isset($_POST['mvic_longitude'])) 
   {
-    return;
-  }
-
-  if (!isset($_POST['mvic_icon_url']) || !isset($_POST['mvic_latitude']) || !isset($_POST['mvic_longitude'])) {
     return;
   }
 
@@ -91,7 +86,7 @@ function mvic_save_map_meta_box_data($post_id) {
   $latitude = sanitize_text_field($_POST['mvic_latitude']);
   $longitude = sanitize_text_field($_POST['mvic_longitude']);
   $show_map = sanitize_text_field($_POST['mvic_show_map']);
-
+  $show_map = isset($_POST['mvic_show_map']) ? '1' : '0';
   update_post_meta($post_id, '_mvic_icon_url', $icon_url);
   update_post_meta($post_id, '_mvic_latitude', $latitude);
   update_post_meta($post_id, '_mvic_longitude', $longitude);
