@@ -32,6 +32,15 @@ function mvic_map_meta_box_callback($post) {
   $latitude  = get_post_meta($post->ID, '_mvic_latitude', true);
   $longitude = get_post_meta($post->ID, '_mvic_longitude', true);
 
+  // Get the current value of the location field
+  $location = get_post_meta($post->ID, '_mvic_location', true);
+
+  $location_values = [
+    'st-thomas' => 'St. Thomas',
+    'st-john' => 'St. John',
+    'st-croix' => 'St. Croix'
+  ];
+
   // Display the form field
   ?>
   <div class="meta-box-map-field">
@@ -41,6 +50,14 @@ function mvic_map_meta_box_callback($post) {
     </label>
   </div>
   <br>
+  <div class="meta-box-map-field">
+    <label for="mvic_location">Location: </label>
+    <select id="mvic_location" name="mvic_location">
+      <?php foreach ($location_values as $key => $label) : ?>
+        <option value="<?= esc_attr($key); ?>" <?php selected($location, $key); ?>><?= esc_html($label); ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
   <div class="meta-box-map-field">
     <label for="mvic_latitude">Latitude: &nbsp;&nbsp;</label>
     <input type="text" id="mvic_latitude" name="mvic_latitude" value="<?= esc_attr($latitude); ?>" size="16" />
@@ -63,11 +80,6 @@ function mvic_save_map_meta_box_data($post_id) {
     return;
   }
 
-  // Verify the nonce
-  if (!wp_verify_nonce($_POST['mvic_map_meta_box_nonce'], 'mvic_save_map_meta_box_data')) {
-    return;
-  }
-
   // Check if the user has permission to save the data
   if (!current_user_can('edit_post', $post_id)) {
     return;
@@ -76,10 +88,14 @@ function mvic_save_map_meta_box_data($post_id) {
   // Check if the meta fields are set
   if (!isset($_POST['mvic_icon_url'])
     || !isset($_POST['mvic_latitude'])
-    || !isset($_POST['mvic_longitude'])) 
+    || !isset($_POST['mvic_longitude'])
+    || !isset($_POST['mvic_location'])) 
   {
     return;
   }
+
+  $location = sanitize_text_field($_POST['mvic_location']);
+  update_post_meta($post_id, '_mvic_location', $location);
 
   // Sanitize and save the data
   $icon_url = sanitize_text_field($_POST['mvic_icon_url']);
