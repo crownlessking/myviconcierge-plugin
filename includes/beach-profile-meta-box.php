@@ -37,7 +37,7 @@ function mvic_plugin_beach_profile_meta_box_callback($post) {
   </div>
   <div class="beach-profile-field">
     <label for="beach_address" class="meta-box-label align-top">Address:</label>
-    <textarea id="beach_address" name="beach_address" placeholder="Beach address" value="<?php echo esc_textarea($address); ?>" class="beach-address"></textarea>
+    <textarea id="beach_address" name="beach_address" placeholder="Beach address" class="beach-address"><?= esc_textarea($address); ?></textarea>
   </div>
   <div class="beach-profile-field">
     <label for="beach_website" class="meta-box-label">Website:</label>
